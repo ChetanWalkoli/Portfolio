@@ -1,0 +1,136 @@
+.wrap {
+  position: fixed;
+  top: 1.25rem;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--gutter);
+  pointer-events: none;
+}
+
+.pill {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  width: min(840px, 100%);
+  padding: 0.5rem 0.6rem 0.5rem 1.4rem;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  background: rgba(5, 5, 5, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.wordmark {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  margin-right: auto;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+
+  a {
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: var(--text);
+  }
+}
+
+.active {
+  color: var(--text) !important;
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--accent);
+  }
+}
+
+.talk {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 1.1rem;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  font-size: 0.88rem;
+  white-space: nowrap;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.03);
+  transition: all 0.25s var(--ease);
+
+  &:hover {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+}
+
+.menuBtn {
+  display: none;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.mobile {
+  pointer-events: auto;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 5, 5, 0.97);
+  backdrop-filter: blur(20px);
+
+  ul {
+    display: grid;
+    gap: 2rem;
+    text-align: center;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(2.2rem, 8vw, 3.8rem);
+    letter-spacing: -0.03em;
+  }
+
+  a {
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+}
+
+@media (max-width: 860px) {
+  .links,
+  .talk {
+    display: none;
+  }
+
+  .menuBtn {
+    display: inline-flex;
+  }
+}

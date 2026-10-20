@@ -1,0 +1,28 @@
+.toggle {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 1.25rem;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  background: var(--bg);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.dots {
+  opacity: 0.7;
+}
+
+@media (max-width: 640px) {
+  .toggle {
+    right: 1rem;
+    bottom: 1rem;
+  }
+}

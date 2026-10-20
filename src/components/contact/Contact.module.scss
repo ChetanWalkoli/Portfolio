@@ -1,0 +1,133 @@
+.footer {
+  border-top: 1px solid var(--hairline);
+  padding-bottom: 7rem;
+}
+
+.container {
+  max-width: 100%;
+}
+
+.label {
+  color: var(--accent);
+  margin-bottom: 1.25rem;
+}
+
+.footer h2 {
+  font-size: clamp(2.8rem, 8vw, 6.4rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  max-width: 16ch;
+
+  em {
+    font-weight: 400;
+    color: var(--muted);
+    font-style: italic;
+  }
+}
+
+.actionRow {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.connect {
+  display: inline-block;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+  color: var(--text);
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.todo {
+  color: var(--faint);
+  font-size: 0.85rem;
+  font-family: var(--font-mono), monospace;
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.2rem;
+  margin-top: 3rem;
+  color: var(--muted);
+}
+
+.socialLink {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
+.base {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--hairline);
+}
+
+.wordmarkCol {
+  display: grid;
+  gap: 0.4rem;
+
+  .micro {
+    color: var(--faint);
+  }
+}
+
+.wordmark {
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+}
+
+.topBtn {
+  width: 3.2rem;
+  height: 3.2rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--hairline);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: var(--text);
+  transition: all 0.25s var(--ease);
+
+  &:hover {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+    transform: translateY(-2px);
+  }
+}
+
+.microRow {
+  margin-top: 1.75rem;
+  color: var(--faint);
+}
+
+@media (max-width: 640px) {
+  .base {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .topBtn {
+    align-self: flex-end;
+  }
+}

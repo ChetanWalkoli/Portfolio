@@ -1,0 +1,17 @@
+export const skills: string[] = [
+  "JavaScript",
+  "React",
+  "Node.js",
+  "Express",
+  "HTML / CSS",
+  "Git",
+  "Vercel",
+  "REST APIs",
+  "Arduino",
+  "ESP32",
+  "C / C++",
+  "IoT",
+  "Embedded systems",
+  "Python",
+  "MongoDB",
+];
