@@ -45,6 +45,7 @@
 .marqueeGroup {
   display: grid;
   gap: 1.75rem;
+  margin-bottom: clamp(3.5rem, 6vw, 5rem);
 }
 
 .marquee {
@@ -97,6 +98,82 @@
   opacity: 0.7;
 }
 
+.categoriesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.categoryCard {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: 1.25rem;
+  border: 1px solid var(--hairline);
+  background: rgba(12, 12, 12, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.categoryHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--hairline);
+
+  h3 {
+    font-size: clamp(1.55rem, 2.4vw, 2rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: #f0b08a;
+  }
+}
+
+.rowIndex {
+  color: var(--accent);
+}
+
+.subgroups {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.subgroup {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.subgroupLabel {
+  color: var(--faint);
+}
+
+.badgeList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.skillBadge {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  padding: 0.32rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--hairline);
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease);
+
+  &:hover {
+    border-color: rgba(232, 135, 90, 0.5);
+    color: var(--accent);
+  }
+}
+
 @keyframes slide {
   from {
     transform: translateX(0);
@@ -112,6 +189,12 @@
   }
   to {
     transform: translateX(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .categoriesGrid {
+    grid-template-columns: 1fr;
   }
 }
 

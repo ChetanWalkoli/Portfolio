@@ -7,22 +7,22 @@ export type Milestone = {
 export const timeline: Milestone[] = [
   {
     year: "2024",
-    title: "Computer Engineering, Pune",
-    text: "Began B.E. Computer Engineering at Dr. D. Y. Patil Institute of Technology. Now in third year.",
+    title: "B.Tech Computer Science Engineering, Pune",
+    text: "Started B.Tech in Computer Science Engineering at Dr. D. Y. Patil Institute of Technology, Pimpri, Pune (2024 – 2028 · CGPA 7.5 / 10).",
   },
   {
     year: "2025",
-    title: "Hardware, IoT, and the web",
-    text: "Building across embedded systems, robotics, and deployed web apps — ATMOS, Linklyst, CafeDesk, and personal AI experiments.",
+    title: "Full-stack web & real-time apps",
+    text: "Shipped Linklyst (Next.js, Prisma, PostgreSQL, Vitest) and Icognito (Node.js, Socket.IO matchmaking server, and WebRTC 1-on-1 video chat).",
   },
   {
     year: "2026",
-    title: "DEVCLASH — ApexThink",
-    text: "24-hour hackathon at DYPIT. Built ApexThink: dependency graphs and repository chat for understanding large codebases.",
+    title: "AI integration & Interview AI",
+    text: "Built Interview AI with React 19, Express 5, MongoDB, Google Gemini, pdf-parse resume extraction, and PDFKit resume generation.",
   },
   {
     year: "Now",
-    title: "Learning in public",
-    text: "Shipping connected products from circuits to code, with a public GitHub trail.",
+    title: "Building in public",
+    text: "Designing and shipping full-stack web apps from Pune, India.",
   },
 ];

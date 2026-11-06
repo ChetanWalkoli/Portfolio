@@ -5,6 +5,11 @@
   border-top: 1px solid var(--hairline);
 }
 
+.eyebrow {
+  color: var(--accent);
+  margin-bottom: 0.85rem;
+}
+
 .left h2 {
   font-size: clamp(2.6rem, 6vw, 4.8rem);
   font-weight: 400;
@@ -60,7 +65,7 @@
   padding: 1.35rem 0;
   text-align: left;
 
-  .micro {
+  :global(.micro) {
     grid-column: 1;
     color: var(--accent);
   }
@@ -80,10 +85,32 @@
 
 .body {
   overflow: hidden;
-  padding-bottom: 1.3rem;
+  padding-bottom: 1.5rem;
   color: var(--muted);
   display: grid;
-  gap: 0.85rem;
+  gap: 1rem;
+}
+
+.capList {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.95rem;
+  color: rgba(242, 239, 232, 0.8);
+
+  li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.65rem;
+    align-items: baseline;
+  }
+}
+
+.capDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 860px) {

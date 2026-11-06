@@ -12,7 +12,7 @@ export function HowIWork() {
   const { motionEnabled } = useMotionPreference();
 
   return (
-    <section id="process" className={`section ${styles.section}`}>
+    <section id="services" className={`section ${styles.section}`}>
       <div className={styles.left}>
         <h2 className="serif">
           {site.processHeadline}
@@ -43,7 +43,7 @@ export function HowIWork() {
               >
                 <span className="micro">{d.label}</span>
                 <strong className="serif">{d.title}</strong>
-                <span aria-hidden>{expanded ? "−" : "+"}</span>
+                <span aria-hidden="true">{expanded ? "−" : "+"}</span>
               </button>
               <AnimatePresence initial={false}>
                 {expanded ? (
@@ -56,6 +56,14 @@ export function HowIWork() {
                     className={styles.body}
                   >
                     <p>{d.text}</p>
+                    <ul className={styles.capList}>
+                      {d.capabilities.map((cap) => (
+                        <li key={cap}>
+                          <span className={styles.capDot} aria-hidden="true" />
+                          <span>{cap}</span>
+                        </li>
+                      ))}
+                    </ul>
                     <p className="micro">{d.tags.join("  ·  ")}</p>
                   </motion.div>
                 ) : null}
