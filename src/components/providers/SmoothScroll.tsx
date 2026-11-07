@@ -13,7 +13,6 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!ready || !motionEnabled) {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
       return;
     }
 
@@ -29,6 +28,8 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     };
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);
+
+    ScrollTrigger.refresh();
 
     const onResize = () => ScrollTrigger.refresh();
     window.addEventListener("resize", onResize);

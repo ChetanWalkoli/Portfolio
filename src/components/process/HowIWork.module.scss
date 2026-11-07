@@ -15,11 +15,25 @@
   font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 0.96;
+  display: grid;
+  gap: 0.08em;
 
   em {
     font-weight: 400;
     color: var(--muted);
+    font-style: italic;
   }
+}
+
+.lineMask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.lineInner {
+  display: block;
+  will-change: transform;
 }
 
 .stepper {
@@ -32,6 +46,9 @@
 .stepper li {
   padding: 0.85rem 0 0.85rem 1.1rem;
   color: var(--muted);
+  transition:
+    color 0.25s var(--ease),
+    border-color 0.25s var(--ease);
 }
 
 .stepper .on {
@@ -44,6 +61,12 @@
   display: flex;
   gap: 0.75rem;
   align-items: baseline;
+  transition: transform 0.25s var(--ease), color 0.25s var(--ease);
+
+  &:hover {
+    color: var(--text);
+    transform: translateX(4px);
+  }
 }
 
 .stepper span {
@@ -55,6 +78,11 @@
 
 .item {
   border-bottom: 1px solid var(--hairline);
+  transition: border-color 0.25s var(--ease);
+
+  &:hover {
+    border-bottom-color: rgba(232, 135, 90, 0.35);
+  }
 }
 
 .item > button {
@@ -74,13 +102,31 @@
     grid-column: 1;
     font-size: clamp(1.7rem, 3vw, 2.4rem);
     font-weight: 400;
+    transition:
+      transform 0.28s var(--ease),
+      color 0.28s var(--ease);
   }
 
-  span:last-child {
-    grid-column: 2;
-    grid-row: 1 / span 2;
-    align-self: center;
+  &:hover strong {
+    transform: translateX(5px);
+    color: #f0b08a;
   }
+
+  &:hover .toggleIcon {
+    color: var(--accent);
+    transform: scale(1.15);
+  }
+}
+
+.toggleIcon {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-size: 1.25rem;
+  color: var(--muted);
+  transition:
+    transform 0.25s var(--ease),
+    color 0.25s var(--ease);
 }
 
 .body {

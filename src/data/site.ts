@@ -52,8 +52,6 @@ export const site = {
     "Building full-stack web applications in Next.js, Node.js, and TypeScript.",
   buildingLine: "BUILDING SINCE 2024",
   email: "chetanwalkoli45@gmail.com",
-  phone: "+91 7972508101",
-  phoneRaw: "+917972508101",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
 

@@ -1,14 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { site } from "@/data/site";
 import { socials, type SocialId } from "@/data/socials";
+import { useMotionPreference } from "@/context/MotionContext";
 import styles from "./Contact.module.scss";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 type ContactFormValues = {
   name: string;
   email: string;
-  phone: string;
   subject: string;
   message: string;
   company: string; // Honeypot
@@ -17,7 +22,6 @@ type ContactFormValues = {
 const INITIAL_VALUES: ContactFormValues = {
   name: "",
   email: "",
-  phone: "",
   subject: "",
   message: "",
   company: "",
@@ -85,6 +89,8 @@ function renderSocialIcon(id: SocialId) {
 
 export function Contact() {
   const year = new Date().getFullYear();
+  const footerRef = useRef<HTMLElement>(null);
+  const { motionEnabled, ready } = useMotionPreference();
   const [values, setValues] = useState<ContactFormValues>(INITIAL_VALUES);
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
@@ -94,6 +100,108 @@ export function Contact() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useGSAP(
+    () => {
+      if (!ready || !motionEnabled) return;
+      const rootEl = footerRef.current;
+      if (!rootEl) return;
+
+      const prefersReduced =
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReduced) return;
+
+      const headingLines = rootEl.querySelectorAll<HTMLElement>(
+        "[data-contact-heading-line]",
+      );
+      if (headingLines.length > 0) {
+        gsap.fromTo(
+          headingLines,
+          { yPercent: 108, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: 0.85,
+            stagger: 0.1,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: rootEl,
+              start: "top 85%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      }
+
+      const items = rootEl.querySelectorAll<HTMLElement>("[data-contact-item]");
+      if (items.length > 0) {
+        gsap.fromTo(
+          items,
+          { y: 18, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.65,
+            stagger: 0.08,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: rootEl,
+              start: "top 82%",
+              toggleActions: "play none none none",
+            },
+          },
+        );
+      }
+
+      // Magnetic hover on social buttons & back-to-top button
+      const canHover = window.matchMedia(
+        "(hover: hover) and (pointer: fine)",
+      ).matches;
+      if (!canHover) return;
+
+      const magneticEls = rootEl.querySelectorAll<HTMLElement>(
+        "[data-magnetic-btn]",
+      );
+      const cleanups: Array<() => void> = [];
+
+      magneticEls.forEach((el) => {
+        const xTo = gsap.quickTo(el, "x", {
+          duration: 0.32,
+          ease: "power3.out",
+        });
+        const yTo = gsap.quickTo(el, "y", {
+          duration: 0.32,
+          ease: "power3.out",
+        });
+
+        const onMove = (e: PointerEvent) => {
+          const rect = el.getBoundingClientRect();
+          const dx = e.clientX - (rect.left + rect.width / 2);
+          const dy = e.clientY - (rect.top + rect.height / 2);
+          xTo(dx * 0.28);
+          yTo(dy * 0.28);
+        };
+
+        const onLeave = () => {
+          xTo(0);
+          yTo(0);
+        };
+
+        el.addEventListener("pointermove", onMove);
+        el.addEventListener("pointerleave", onLeave);
+        cleanups.push(() => {
+          el.removeEventListener("pointermove", onMove);
+          el.removeEventListener("pointerleave", onLeave);
+        });
+      });
+
+      return () => {
+        cleanups.forEach((fn) => fn());
+      };
+    },
+    { scope: footerRef, dependencies: [motionEnabled, ready] },
+  );
 
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -151,6 +259,7 @@ export function Contact() {
   return (
     <footer
       id="contact"
+      ref={footerRef}
       className={`section ${styles.footer}`}
       aria-labelledby="contact-heading"
     >
@@ -161,19 +270,26 @@ export function Contact() {
           {/* Left Column: Eyebrow, GET IN TOUCH Heading, Direct Details & Circular Socials */}
           <div className={styles.infoColumn}>
             <div className={styles.headingBlock}>
-              <p className={`micro ${styles.eyebrow}`}>
+              <p className={`micro ${styles.eyebrow}`} data-contact-item>
                 <span className={styles.eyebrowDot} aria-hidden="true" />
                 AVAILABLE FOR OPPORTUNITIES
               </p>
               <h2 id="contact-heading" className={styles.getInTouchHeading}>
-                GET IN
-                <br />
-                TOUCH
+                <span className={styles.lineMask}>
+                  <span className={styles.lineInner} data-contact-heading-line>
+                    GET IN
+                  </span>
+                </span>
+                <span className={styles.lineMask}>
+                  <span className={styles.lineInner} data-contact-heading-line>
+                    TOUCH
+                  </span>
+                </span>
               </h2>
             </div>
 
             <div className={styles.detailsList}>
-              <div className={styles.detailItem}>
+              <div className={styles.detailItem} data-contact-item>
                 <span className={styles.detailLabel}>Email:</span>
                 <a
                   href={`mailto:${site.email}`}
@@ -183,17 +299,7 @@ export function Contact() {
                 </a>
               </div>
 
-              <div className={styles.detailItem}>
-                <span className={styles.detailLabel}>Phone:</span>
-                <a
-                  href={`tel:${site.phoneRaw}`}
-                  className={styles.detailValueLink}
-                >
-                  {site.phone}
-                </a>
-              </div>
-
-              <div className={styles.detailItem}>
+              <div className={styles.detailItem} data-contact-item>
                 <span className={styles.detailLabel}>Location:</span>
                 <span className={styles.detailValueStatic}>
                   {site.locationFull}
@@ -201,7 +307,7 @@ export function Contact() {
               </div>
             </div>
 
-            <div className={styles.socialBlock}>
+            <div className={styles.socialBlock} data-contact-item>
               <span className={styles.socialLabel}>Follow us</span>
               <div className={styles.socialRow}>
                 {socials.map((s) => (
@@ -213,6 +319,7 @@ export function Contact() {
                     className={styles.socialButton}
                     aria-label={s.label}
                     title={s.label}
+                    data-magnetic-btn
                   >
                     {renderSocialIcon(s.id)}
                   </a>
@@ -222,7 +329,7 @@ export function Contact() {
           </div>
 
           {/* Right Column: Editorial Contact Form */}
-          <div className={styles.formColumn}>
+          <div className={styles.formColumn} data-contact-item>
             <form
               className={styles.form}
               onSubmit={handleSubmit}
@@ -280,42 +387,24 @@ export function Contact() {
                 </div>
               </div>
 
-              {/* Row 2: Phone + Subject */}
-              <div className={styles.fieldRow}>
-                <div className={styles.fieldGroup}>
-                  <label htmlFor="contact-phone" className={styles.fieldLabel}>
-                    Phone
-                  </label>
-                  <input
-                    id="contact-phone"
-                    name="phone"
-                    type="tel"
-                    autoComplete="tel"
-                    placeholder="Your phone number"
-                    className={styles.input}
-                    value={values.phone}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                <div className={styles.fieldGroup}>
-                  <label
-                    htmlFor="contact-subject"
-                    className={styles.fieldLabel}
-                  >
-                    Subject
-                  </label>
-                  <input
-                    id="contact-subject"
-                    name="subject"
-                    type="text"
-                    required
-                    placeholder="Subject"
-                    className={styles.input}
-                    value={values.subject}
-                    onChange={handleChange}
-                  />
-                </div>
+              {/* Row 2: Subject */}
+              <div className={styles.fieldGroup}>
+                <label
+                  htmlFor="contact-subject"
+                  className={styles.fieldLabel}
+                >
+                  Subject
+                </label>
+                <input
+                  id="contact-subject"
+                  name="subject"
+                  type="text"
+                  required
+                  placeholder="Subject"
+                  className={styles.input}
+                  value={values.subject}
+                  onChange={handleChange}
+                />
               </div>
 
               {/* Row 3: Message */}
@@ -341,7 +430,9 @@ export function Contact() {
                 className={styles.submitButton}
                 disabled={status === "submitting"}
               >
-                {status === "submitting" ? "Sending..." : "Send Message"}
+                <span>
+                  {status === "submitting" ? "Sending..." : "Send Message"}
+                </span>
               </button>
 
               {status === "success" && feedbackMessage ? (
@@ -380,8 +471,12 @@ export function Contact() {
             className={styles.topBtn}
             onClick={scrollToTop}
             aria-label="Back to top"
+            data-magnetic-btn
           >
-            ↑
+            <span className={styles.topArrowWrap} aria-hidden="true">
+              <span className={styles.topArrowMain}>↑</span>
+              <span className={styles.topArrowClone}>↑</span>
+            </span>
           </button>
         </div>
 

@@ -66,7 +66,8 @@ button {
   cursor: pointer;
 }
 
-ul {
+ul,
+ol {
   list-style: none;
 }
 
@@ -121,4 +122,6 @@ html[data-motion="off"] *::after {
   animation: none !important;
   transition: none !important;
   scroll-behavior: auto !important;
+  opacity: 1 !important;
+  clip-path: none !important;
 }

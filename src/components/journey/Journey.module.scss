@@ -9,19 +9,35 @@
     font-weight: 400;
     letter-spacing: -0.04em;
     line-height: 0.96;
+    display: grid;
+    gap: 0.08em;
+    align-content: start;
 
     em {
       font-weight: 400;
       color: var(--muted);
+      font-style: italic;
     }
   }
 }
 
+.lineMask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.lineInner {
+  display: block;
+  will-change: transform;
+}
+
 .line {
   position: relative;
+  list-style: none;
   display: grid;
-  gap: 2.2rem;
-  padding-left: 1.4rem;
+  gap: 2.35rem;
+  padding-left: 2.25rem;
 }
 
 .track,
@@ -30,7 +46,7 @@
   left: 5px;
   top: 0.35rem;
   bottom: 0.35rem;
-  width: 1px;
+  width: 1.5px;
 }
 
 .track {
@@ -49,33 +65,53 @@ html[data-motion="off"] .fill {
 
 .dot {
   position: absolute;
-  left: 0;
+  left: -2.25rem;
+  top: 0.25rem;
   width: 11px;
   height: 11px;
   border-radius: 50%;
   background: var(--bg);
-  border: 1px solid var(--accent);
-  margin-top: 0.3rem;
+  border: 1.5px solid var(--accent);
+  transition: transform 0.25s var(--ease);
 }
 
 .line li {
-  display: grid;
-  gap: 0.35rem;
+  position: relative;
+  list-style: none;
   color: var(--muted);
+}
+
+.itemContent {
+  display: grid;
+  gap: 0.4rem;
+  transition: transform 0.25s var(--ease);
+
+  &:hover {
+    transform: translateX(4px);
+  }
 }
 
 .line h3 {
   color: var(--text);
-  font-size: 1.55rem;
+  font-size: clamp(1.35rem, 2.2vw, 1.6rem);
   font-weight: 400;
+  line-height: 1.25;
 }
 
-.line .micro {
+.line :global(.micro) {
   color: var(--accent);
 }
 
 @media (max-width: 860px) {
   .section {
     grid-template-columns: 1fr;
+  }
+
+  .line {
+    padding-left: 1.85rem;
+  }
+
+  .dot {
+    left: -1.85rem;
   }
 }

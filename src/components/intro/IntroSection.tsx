@@ -49,7 +49,7 @@ export function IntroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { motionEnabled } = useMotionPreference();
+  const { motionEnabled, ready } = useMotionPreference();
 
   const tokens = useMemo(
     () => tokenizeParagraph(site.aboutParagraph, site.highlightedTerms),
@@ -58,7 +58,7 @@ export function IntroSection() {
 
   useGSAP(
     () => {
-      if (!motionEnabled) return;
+      if (!ready || !motionEnabled) return;
       const sectionEl = sectionRef.current;
       const headingEl = headingRef.current;
       const cardEl = cardRef.current;
@@ -75,8 +75,8 @@ export function IntroSection() {
             ease: "power3.out",
             scrollTrigger: {
               trigger: sectionEl,
-              start: "top 82%",
-              toggleActions: "play none none reverse",
+              start: "top 85%",
+              toggleActions: "play none none none",
             },
           },
         );
@@ -101,7 +101,7 @@ export function IntroSection() {
         );
       }
     },
-    { scope: sectionRef, dependencies: [motionEnabled] },
+    { scope: sectionRef, dependencies: [motionEnabled, ready] },
   );
 
   return (
@@ -117,39 +117,62 @@ export function IntroSection() {
         </h2>
 
         <div ref={cardRef} className={styles.card}>
-          <h3 className={styles.greeting}>{site.aboutGreeting}</h3>
-
-          <p className={styles.narrative}>
-            {tokens.map((token, idx) => (
-              <span key={`${token.raw}-${idx}`}>
-                <span
-                  data-intro-word
-                  className={
-                    token.highlighted
-                      ? `${styles.word} ${styles.wordHighlight}`
-                      : styles.word
-                  }
-                >
-                  {token.raw}
-                </span>
-                {idx < tokens.length - 1 ? " " : ""}
-              </span>
-            ))}
-          </p>
-
-          <div className={styles.footer}>
-            <div className={styles.locationRow}>
-              <span className={styles.statusDot} aria-hidden="true" />
-              <span className="micro">{site.locationFull}</span>
+          <aside className={styles.portraitCol} aria-label="Portrait and education">
+            <div className={styles.portraitFrame}>
+              <picture>
+                <source srcSet="/portraits/chetan-halftone.webp" type="image/webp" />
+                <img
+                  src="/portraits/chetan-halftone.png"
+                  alt="Chetan Walkoli"
+                  className={styles.portraitImg}
+                  width={1200}
+                  height={1416}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
             </div>
+            <div className={styles.eduMeta}>
+              <p className={styles.eduDegree}>{site.degree}</p>
+              <p className="micro">{site.college}</p>
+            </div>
+          </aside>
 
-            <ul className={styles.courseworkList} aria-label="Core coursework">
-              {site.coursework.map((course) => (
-                <li key={course} className={styles.courseTag}>
-                  {course}
-                </li>
+          <div className={styles.contentCol}>
+            <h3 className={styles.greeting}>{site.aboutGreeting}</h3>
+
+            <p className={styles.narrative}>
+              {tokens.map((token, idx) => (
+                <span key={`${token.raw}-${idx}`}>
+                  <span
+                    data-intro-word
+                    className={
+                      token.highlighted
+                        ? `${styles.word} ${styles.wordHighlight}`
+                        : styles.word
+                    }
+                  >
+                    {token.raw}
+                  </span>
+                  {idx < tokens.length - 1 ? " " : ""}
+                </span>
               ))}
-            </ul>
+            </p>
+
+            <div className={styles.footer}>
+              <div className={styles.locationRow}>
+                <span className={styles.statusDot} aria-hidden="true" />
+                <span className="micro">{site.locationFull}</span>
+              </div>
+
+              <ul className={styles.courseworkList} aria-label="Core coursework">
+                {site.coursework.map((course) => (
+                  <li key={course} className={styles.courseTag}>
+                    {course}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

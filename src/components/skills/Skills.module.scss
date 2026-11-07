@@ -42,6 +42,17 @@
   margin-bottom: clamp(2.5rem, 5vw, 4rem);
 }
 
+.lineMask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+}
+
+.lineInner {
+  display: block;
+  will-change: transform;
+}
+
 .marqueeGroup {
   display: grid;
   gap: 1.75rem;
@@ -61,7 +72,7 @@
 
   &:hover .track,
   &[data-paused] .track {
-    animation-play-state: paused;
+    animation-play-state: paused !important;
   }
 }
 
@@ -80,10 +91,13 @@
     align-items: center;
     gap: 2.5rem;
     white-space: nowrap;
-    transition: color 0.2s ease;
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
 
     &:hover {
       color: var(--accent);
+      transform: translateY(-2px);
     }
   }
 }
@@ -105,15 +119,47 @@
 }
 
 .categoryCard {
+  position: relative;
+  overflow: hidden;
   padding: clamp(1.5rem, 3vw, 2.25rem);
   border-radius: 1.25rem;
   border: 1px solid var(--hairline);
-  background: rgba(12, 12, 12, 0.82);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: #0b0b0b;
   display: flex;
   flex-direction: column;
   gap: 1.35rem;
+  transition:
+    border-color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      420px circle at var(--mouse-x, 50%) var(--mouse-y, 0%),
+      rgba(232, 135, 90, 0.11),
+      transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.35s var(--ease);
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    border-color: rgba(232, 135, 90, 0.36);
+    transform: translateY(-2px);
+
+    &::before {
+      opacity: 1;
+    }
+  }
 }
 
 .categoryHead {
@@ -166,11 +212,13 @@
   background: rgba(255, 255, 255, 0.03);
   transition:
     border-color 0.2s var(--ease),
-    color 0.2s var(--ease);
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease);
 
   &:hover {
     border-color: rgba(232, 135, 90, 0.5);
     color: var(--accent);
+    transform: translateY(-1px);
   }
 }
 

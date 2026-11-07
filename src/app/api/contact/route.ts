@@ -4,7 +4,6 @@ import { site } from "@/data/site";
 type ContactPayload = {
   name?: unknown;
   email?: unknown;
-  phone?: unknown;
   subject?: unknown;
   message?: unknown;
   company?: unknown; // Honeypot anti-spam field
@@ -40,7 +39,6 @@ export async function POST(request: Request) {
 
     const name = sanitizeText(body.name, 100);
     const email = sanitizeText(body.email, 160);
-    const phone = sanitizeText(body.phone, 40);
     const subject = sanitizeText(body.subject, 160);
     const message = sanitizeText(body.message, 4000);
 
@@ -92,7 +90,6 @@ export async function POST(request: Request) {
           <h2 style="margin-bottom: 16px;">New Portfolio Inquiry — ${escapeHtml(subject)}</h2>
           <p><strong>Name:</strong> ${escapeHtml(name)}</p>
           <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Phone:</strong> ${escapeHtml(phone || "Not provided")}</p>
           <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
           <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 20px 0;" />
           <p style="white-space: pre-wrap;">${escapeHtml(message)}</p>
